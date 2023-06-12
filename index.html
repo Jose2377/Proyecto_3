@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+	<style>
+		table,th,td{
+			border : 1px solid black;
+			border-collapse: collapse;
+		}
+		th,td{
+			padding: 5px;
+		}
+	</style>
+	<body>
+		<h2>Prueba</h2>
+		<button type="button" onclick="loadXMLDoc()">Open Data</button>
+		<br><br>
+		<table id="demo"></table>
+		<script>
+			function loadXMLDoc(){
+				const xhttp = new XMLHttpRequest();
+				xhttp.onload = function(){
+					const xmlDoc = xhttp.responseXML;
+					const cd = xmlDoc.getElementsByTagName("Prueba");
+					myFunction(cd)
+				}
+				xhttp.open("GET","Datos.xml");
+				xhttp.send();
+			}
+			function myFunction(cd){
+				let table="<tr>";
+				for(let i = 0; i < cd[0].childNodes.length; i = i + 1){
+					table +="<th>" + cd[0].childNodes[i].tagName+"</th>";
+				}
+				table += "</tr>";
+				for(let i = 0; i < cd.length; i++){
+					table += "<tr>"; 
+						for(let j = 0; j < cd[0].childNodes.length; j = j + 1){
+							table += "<td>" + cd[i].getElementsByTagName(cd[0].childNodes[j].tagName)[0].childNodes[0].nodeValue + "</td>";
+							}
+					table += "</tr>"
+				}
+				document.getElementById("demo").innerHTML=table;
+				
+			}
+		</script>
+
+	</body>
+</html>
